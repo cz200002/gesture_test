@@ -6,34 +6,28 @@ import numpy as np
 class handDetector():
     def __init__(self, mode=False, maxHands=2, detectionCon=0.5, trackCon=0.5):
         """
-        初始化手势检测器对象。
-        Args:
-            mode (bool): 是否检测多只手。默认为False, 只检测单只手。
-            maxHands (int): 最多检测的手的数量。默认为2。
-            detectionCon (float): 手势检测的置信度阈值。默认为0.5。
-            trackCon (float): 手势跟踪的置信度阈值。默认为0.5。
+        mode (bool): 是否检测多只手。默认为False, 只检测单只手。
+        maxHands (int): 最多检测的手的数量。默认为2。
+        detectionCon (float): 手势检测的置信度阈值。默认为0.5。
+        trackCon (float): 手势跟踪的置信度阈值。默认为0.5。
         """
         self.mode = mode
         self.maxHands = maxHands
         self.detectionCon = detectionCon
         self.trackCon = trackCon
  
-        # 创建 Mediapipe Hands 模块和绘制工具对象
         self.mpHands = mp.solutions.hands
         self.hands = self.mpHands.Hands(static_image_mode = self.mode, 
                                         max_num_hands = self.maxHands, 
                                         model_complexity = 1, 
                                         min_detection_confidence = self.detectionCon, 
                                         min_tracking_confidence = self.trackCon)
-        # self.hands = self.mpHands.Hands(self.mode, self.maxHands,
-        #                                self.detectionCon, self.trackCon)
         self.mpDraw = mp.solutions.drawing_utils
         self.tipIds = [4, 8, 12, 16, 20]
  
     def findHands(self, img, draw=True):
         """
-        检测手势并在图像上绘制关键点和连接线。
-        Args:
+        Input:
             img (numpy.ndarray): 输入图像。
             draw (bool): 是否在图像上绘制标记。默认为True。
         Returns:
@@ -60,30 +54,29 @@ if __name__ == '__main__':
     # cv2.imshow("test", drawed_img)
     # cv2.waitKey()
 
+    
     # For video stream
-    import numpy as np  #导入科学计算库numpy
+    import time
     cap = cv2.VideoCapture(0)
-    #打开失败
     if not cap.isOpened():
         print("Cannot open camera")
         exit()
-    #打开成功
     while True:
-        #如果正确读取帧，ret为True
+        start_time = time.time()
         ret, frame = cap.read()
-        #读取失败，则退出循环
         if not ret:
             print("Can't receive frame (stream end?). Exiting ...")
             break
-        #图像处理-转换为灰度图
-        # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        #显示画面
+        pause_time = time.time()
         drawed_img = detector.findHands(frame)
         cv2.imshow('frame', drawed_img)
-        #获取键盘按下那个键
+        end_time = time.time()
+        print('-'*10)
+        print('cal time', end_time - pause_time)
+        print('all time', end_time - start_time) # about 50Hz
         key_pressed = cv2.waitKey(60)
-        #如果按下esc键，就退出循环
         if key_pressed == 27:
             break
-    cap.release()  #释放捕获器
-    cv2.destroyAllWindows() #关闭图像窗口
+    cap.release()
+    cv2.destroyAllWindows() 
+    
