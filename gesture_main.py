@@ -29,7 +29,7 @@ class VirtualMouse:
     # 主函数
     def recognize(self):
 
-        handprocess = HandProcess(False,1)
+        handprocess = HandProcess(static_image_mode = False,max_num_hands = 1)
         utils = Utils()
         
         fpsTime = time.time()
@@ -39,7 +39,7 @@ class VirtualMouse:
         resize_h = 720
 
         # 控制边距
-        frameMargin = 100
+        frameMargin = 50
         
         # 屏幕尺寸
         screenWidth, screenHeight = pyautogui.size() 
@@ -61,7 +61,7 @@ class VirtualMouse:
             success, self.image = cap.read()
             self.image = cv2.resize(self.image, (resize_w, resize_h))
             if not success:
-                print("空帧")
+                print("Camera Failed")
                 continue
 
             # 提高性能
@@ -92,13 +92,12 @@ class VirtualMouse:
 
                 now = time.time() 
 
-
-
                 if action_zh == '鼠标移动':
-                    # pyautogui.moveTo(finalX, finalY)
+                    pyautogui.moveTo(finalX, finalY)
+                    # pyautogui.dragTo(finalX,finalY)
                     # 解决移动卡顿的问题
                     # autopy.mouse.move(finalX, finalY)
-                    pass
+                    # pyautogui.move()
 
                 elif action_zh == '单击准备':
                     pass
@@ -133,7 +132,7 @@ class VirtualMouse:
             fps_text = 1/(cTime-fpsTime)
             fpsTime = cTime
          
-            self.image = utils.cv2AddChineseText(self.image, "帧率: " + str(int(fps_text)),  (10, 30), textColor=(0, 255, 0), textSize=50)
+            self.image = utils.cv2AddChineseText(self.image, "帧率: " + str(int(fps_text)),  (10, 30), textColor=(0, 255, 0), textSize=30)
             
 
             # 显示画面
@@ -145,6 +144,6 @@ class VirtualMouse:
         cap.release()
 
 
-# 开始程序
-control = VirtualMouse()
-control.recognize()
+if __name__ == '__main__':
+    control = VirtualMouse()
+    control.recognize()

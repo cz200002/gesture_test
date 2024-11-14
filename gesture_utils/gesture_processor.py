@@ -24,9 +24,12 @@ class Utils:
         # # 字体的格式
         # fontStyle = ImageFont.truetype(
         #     "./fonts/simsun.ttc", textSize, encoding="utf-8")
+        # fontStyle = ImageFont.truetype(
+        #     size = textSize, encoding="utf-8")
         # 绘制文本
         # draw.text(position, text, textColor, font=fontStyle)
         draw.text(position, text, textColor)
+        # print("<<<<", position)
         # 转换回OpenCV格式
         return cv2.cvtColor(np.asarray(img), cv2.COLOR_RGB2BGR)
 
