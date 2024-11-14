@@ -216,6 +216,6 @@ class HandProcess:
                     y_min,y_max =  min(self.landmark_list,key=lambda i : i[2])[2], max(self.landmark_list,key=lambda i : i[2])[2]
 
                     img = cv2.rectangle(img,(x_min-30,y_min-30),(x_max+30,y_max+30),(0, 255, 0),2)
-                    img = utils.cv2AddChineseText(img, self.action_deteted,  (x_min-20,y_min-120), textColor=(255, 0, 255), textSize=60)
+                    # img = utils.cv2AddChineseText(img, self.action_deteted,  (x_min-20,y_min-120), textColor=(255, 0, 255), textSize=60)
                         
         return img

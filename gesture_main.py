@@ -29,7 +29,7 @@ class VirtualMouse:
     # 主函数
     def recognize(self):
 
-        handprocess = HandProcess(static_image_mode = False,max_num_hands = 1)
+        handprocess = HandProcess(static_image_mode = False,max_num_hands = 2)
         utils = Utils()
         
         fpsTime = time.time()
